@@ -1,0 +1,13 @@
+#dependencies
+/node_modules
+/.pnp
+.npm.js
+
+#testing
+/coverage
+
+#production
+/build
+
+#misc
+.env
