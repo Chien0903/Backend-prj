@@ -11,12 +11,10 @@
   font-size: 24px;
   font-weight: 700;
   color: #fff;
-  text-decoration: none;
 }
 /* End Header */
 
 /* Body */
-
 .body .sider {
   width: 150px;
   background: #323232;
@@ -32,6 +30,7 @@
   position: relative;
   left: 150px;
   width: calc(100% - 180px);
+  color: black;
 }
 /* End Body */
 
@@ -47,6 +46,5 @@
   display: block;
   padding: 6px 10px;
   border-bottom: 1px solid #515151;
-  text-decoration: none;
 }
 /* End Sider */
