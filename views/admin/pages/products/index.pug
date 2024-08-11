@@ -1,7 +1,8 @@
-extend ../../layouts/default.pug
+extends  ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
 block main
     h1 Danh sách sản phẩm
 
@@ -16,9 +17,15 @@ block main
     .card.mb-3
         .card-header Danh sách sản phẩm
             .card-body
-                table.table.table-hover.table-sm
+                +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                )
                     thead
                         tr
+                            th
+                                input(type="checkbox" name="checkall")
                             th STT
                             th Hình ảnh
                             th Tiêu đề
@@ -29,6 +36,12 @@ block main
                     tbody
                         each item, index in products
                             tr
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )
                                 td #{index + 1}
                                 td
                                     img(
@@ -41,31 +54,31 @@ block main
                                 td #{item.price}
                                 td
                                     if(item.status == "active")
-                                        a(href="#" class = "badge badge-success") Hoạt động
+                                        a(
+                                            href="javascript:"
+                                            data-status="active"
+                                            data-id=item.id
+                                            button-change-Status 
+                                            class = "badge badge-success"
+                                        ) Hoạt động
                                     else
-                                        a(href="#" class = "badge badge-danger") Dừng Hoạt động
+                                        a(
+                                            href="javascript:"
+                                            data-status="inactive"
+                                            data-id=item.id
+                                            button-change-Status  
+                                            class = "badge badge-danger"
+                                        ) Dừng Hoạt động
                                 td
                                     button(class="btn btn-warning btn-sm") Sửa
                                     button(class="btn btn-danger btn-sm ml-1") Xóa
-            +pagination(pagination)
-            //- nav  
-            //-     ul(class="pagination")
-            //-         if(pagination.currentPage > 1)
-            //-             li(class="page-item")
-            //-                 button(
-            //-                     class="page-link"
-            //-                     button-pagination=pagination.currentPage-1
-            //-                 ) Trang trước
-            //-         - for(var i = 1; i <= pagination.totalPage; i++)
-            //-             li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
-            //-                 button(
-            //-                     class="page-link"
-            //-                     button-pagination=i
-            //-                 ) #{i}
+        +pagination(pagination)
 
-            //-         if(pagination.currentPage < pagination.totalPage)
-            //-             li(class="page-item")
-            //-                 button(
-            //-                     class="page-link"
-            //-                     button-pagination=pagination.currentPage+1
-            //-                 ) Trang tiếp
+        form(
+            action=""
+            method="POST"
+            id="form-change-status"
+            data-path=`${prefixAdmin}/products/change-status`
+        )
+
+    script(src="/admin/js/product.js")
