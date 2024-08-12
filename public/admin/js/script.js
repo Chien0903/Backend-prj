@@ -73,7 +73,7 @@ if (checkboxMulti) {
       ).length;
       console.log(countChecked);
       console.log(inputIds.length);
-      if(countChecked == inputIds.length){
+      if (countChecked == inputIds.length) {
         inputCheckAll.checked = true;
       } else {
         inputCheckAll.checked = false;
@@ -85,26 +85,44 @@ if (checkboxMulti) {
 
 // Form Change Multi
 const formChangeMulti = document.querySelector("[form-change-multi]");
-if(formChangeMulti){
-    formChangeMulti.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const checkboxMulti = document.querySelector("[checkbox-multi]");
-        const inputChecked = checkboxMulti.querySelectorAll(
-            "input[name='id']:checked"
-          );
-          if(inputChecked.length > 0) {
-            let ids= [];
-            const inputIds = formChangeMulti.querySelector("input[name='ids']");
+if (formChangeMulti) {
+  formChangeMulti.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const checkboxMulti = document.querySelector("[checkbox-multi]");
+    const inputChecked = checkboxMulti.querySelectorAll(
+      "input[name='id']:checked"
+    );
 
-            inputChecked.forEach(input => {
-                const id = input.value;
-                ids.push(id);
-            });
-            inputIds.value =ids.join(", ");
-            formChangeMulti.submit();
-          } else {
-            alert("Vui lòng chọn ít nhất một bản ghi!");
-          }
-    });
+    const typeChange = e.target.elements.type.value;
+    if (typeChange == "delete-all") {
+      const isConfirm = confirm("Bạn có muốn xóa tất cả?");
+      if (!isConfirm) {
+        return;
+      }
+    }
+
+    if (inputChecked.length > 0) {
+      let ids = [];
+      const inputIds = formChangeMulti.querySelector("input[name='ids']");
+
+      inputChecked.forEach((input) => {
+        const id = input.value;
+
+        if (typeChange == "change-position") {
+          const position = input
+            .closest("tr")
+            .querySelector("input[name='position']").value;
+          ids.push(`${id}-${position}`)
+        } else {
+          ids.push(id);
+        }
+      });
+
+      inputIds.value = ids.join(", ");
+      formChangeMulti.submit();
+    } else {
+      alert("Vui lòng chọn ít nhất một bản ghi!");
+    }
+  });
 }
 // End Form Change Multi
