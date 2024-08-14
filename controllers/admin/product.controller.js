@@ -186,7 +186,7 @@ module.exports.editPatch = async (req,res) => {
     req.flash("success", `Cập nhật thất bại!`);
   }
 
-  res.redirect(`back`);
+  res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
 //[PATCH] /admin/products/detail/:id
 module.exports.detail= async (req,res) => {
