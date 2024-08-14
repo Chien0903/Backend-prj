@@ -18,3 +18,21 @@ res.render("client/pages/products/index.pug", {
     products: newProducts,
   });
 };
+
+module.exports.detail = async (req,res) => {
+  try{
+    const find = {
+      deleted: false,
+      slug: req.params.slug,
+      status: "active"
+    };
+    const product = await Product.findOne(find);
+    console.log(product);
+    res.render("client/pages/products/detail" ,{
+      pageTitle: product.title,
+      product: product,
+    });
+  } catch (error) {
+    res.redirect(`/products`);
+  };
+};
