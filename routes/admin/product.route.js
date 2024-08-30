@@ -1,7 +1,6 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-// const storaMulter = require("../../helpers/storageMulter");
 const controller = require("../../controllers/admin/product.controller");
 const validate = require("../../validates/admin/product.validate");
 // const storageMulter = require("../../helpers/storageMulter");
