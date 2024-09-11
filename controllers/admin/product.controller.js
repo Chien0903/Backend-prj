@@ -179,10 +179,30 @@ module.exports.edit= async (req,res) => {
       deleted: false,
       _id: req.params.id
     };
+    function createTree(arr, parentId = ""){
+      const tree = [];
+      arr.forEach((item) => {
+        if(item.parent_id === parentId) {
+          const newItem = item;
+          const children = createTree(arr, item.id);
+          if(children.length > 0)
+          {
+            newItem.children = children;
+          }
+          tree.push(newItem);
+        }
+      });
+      return tree;
+    }
+    const Category = await ProductCategory.find({
+      deleted: false,
+    });
+    const newCategory = createTree(Category);
     const product = await Product.findOne(find);
     res.render("admin/pages/products/edit" ,{
       pageTitle: "Chỉnh sửa sản phẩm",
       product: product,
+      Category: newCategory
     });
   } catch (error) {
     res.redirect(`${systemConfig.prefixAdmin}/products`);
