@@ -85,5 +85,5 @@ module.exports.editPatch = async (req, res) => {
         await Account.updateOne({_id: id}, req.body);
         req.flash("success", "Cập nhật thành công!");
     }
-        res.redirect(`back`);
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
 };
