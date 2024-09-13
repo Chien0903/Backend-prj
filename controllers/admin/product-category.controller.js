@@ -54,7 +54,7 @@ module.exports.create = async (req, res) => {
     records: newRecords
   });
 };
-
+//[POST] /admin/products-category/createPost
 module.exports.createPost = async (req, res) => {
   if (req.body.position == "") {
     const countProducts = await ProductCategory.countDocuments();
@@ -66,7 +66,7 @@ module.exports.createPost = async (req, res) => {
   await record.save();
   res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
-
+//[GET] /admin/products-category/edit
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
@@ -105,7 +105,7 @@ module.exports.edit = async (req, res) => {
   }
  
 };
-
+//[PATCH] /admin/products-category/edit/:id
 module.exports.editPatch = async (req,res) => {
   const id = req.params.id
   req.body.position = parseInt(req.body.position);
@@ -117,7 +117,7 @@ module.exports.editPatch = async (req,res) => {
   }
   res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
-
+//[GET] /admin/products-category/detail
 module.exports.detail = async (req,res) => {
   const find = {
     deleted: false,
