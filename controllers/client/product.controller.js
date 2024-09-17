@@ -8,11 +8,11 @@ module.exports.index = async (req, res) => {
     status: "active",
     deleted: "false",
   }).sort({position:"desc"});
-const newProducts = productsHelper.priceNewProducts(products);
-res.render("client/pages/products/index.pug", {
-    pageTitle: "Danh sach san pham",
-    products: newProducts,
-  });
+  const newProducts = productsHelper.priceNewProducts(products);
+  res.render("client/pages/products/index.pug", {
+      pageTitle: "Danh sach san pham",
+      products: newProducts,
+    });
 };
 // [GET] /products/:slugProduct
 module.exports.detail = async (req,res) => {
@@ -46,7 +46,6 @@ module.exports.category = async (req,res) => {
     slug: req.params.slugCategory,
     deleted: false
   });
-  console.log(category);
   const listSubCategory = await productCategoryHelper.getSubCategory(category.id);
   const listSubCategoryId = listSubCategory.map(item => item.id);
   const products = await Product.find({
@@ -54,7 +53,6 @@ module.exports.category = async (req,res) => {
     deleted: false
   }).sort({position: "desc"});
   const newProducts = productsHelper.priceNewProducts(products);
-  console.log(products);
   res.render("client/pages/products/index", {
     pageTitle: category.title,
     products: newProducts
