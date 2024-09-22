@@ -1,4 +1,5 @@
 const User = require("../../models/user.model");
+const Cart = require("../../models/cart.model");
 const md5 = require("md5");
 const generateHelper = require("../../helpers/generate")
 const ForgotPassword = require("../../models/forgot-password.model")
@@ -56,12 +57,26 @@ module.exports.loginPost = async (req, res) => {
         res.redirect("back");
         return;
     }
+    const cart = await Cart.findOne({
+        user_id: user.id
+    });
+    if(cart) {
+        res.cookie("cartId",cart.id)
+    } else {
+        await Cart.updateOne({
+        _id: req.cookies.cartId
+        },{
+            user_id: user.id
+        })
+    }
+   
     res.cookie("tokenUser", user.tokenUser);
     res.redirect("/");
 }
 //[GET] /user/logout
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser");
+    res.clearCookie("cartId")
     res.redirect("/");
 }
 //[GET] /user/password/forgotPassword
@@ -145,3 +160,9 @@ module.exports.resetPasswordPost = async (req, res) => {
     })
     res.redirect("/");
 };
+//[GET] /user/info
+module.exports.info = async (req,res) =>{
+    res.render("client/pages/user/info", {
+        pageTilte: "Thông tin tài khoản",
+    })
+}

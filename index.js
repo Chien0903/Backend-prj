@@ -7,6 +7,9 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const multer = require("multer");
 const moment = require("moment");
+const http = require('http');
+const { Server } = require("socket.io");
+
 require("dotenv").config();
 
 const database = require("./config/database");
@@ -20,6 +23,13 @@ database.connect();
 
 const app = express();
 const port = process.env.PORT;
+
+
+// SocketIO
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;
+// End SocketIO
 
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended:false}));
@@ -44,7 +54,11 @@ app.use(express.static(`${__dirname}/public`));
 //Routes
 routeAdmin(app);
 route(app);
-
-app.listen(port, () => {
+app.get("*", (req,res)=>{
+  res.render("client/pages/error/404",{
+    pageTitle: "404 Not Found",
+  })
+})
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
