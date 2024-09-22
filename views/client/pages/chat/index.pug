@@ -5,7 +5,7 @@ block main
     .container.my-3 
         .row 
             .col-12 
-                +box-head("chat")
+                +box-head("Chat")
         
         .row 
             .col-12 
@@ -30,6 +30,9 @@ block main
                                 placeholder="Nhập nội dung..."
                                 name="content"
                             )
+                            span(class="button-icon btn btn-light mx-2") <i class="fa-regular fa-face-smile"></i>
                             button 
                                 i.fa-solid.fa-paper-plane
+    div(class="tooltip" role="tooltip")
+        emoji-picker(class="light")
                             

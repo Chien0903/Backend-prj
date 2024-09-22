@@ -378,3 +378,14 @@
   background-size: contain;
 }
 /* End chat */
+
+/* Emoji icon */
+.tooltip {
+  visibility: hidden;
+}
+
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+/* Emoji icon */
