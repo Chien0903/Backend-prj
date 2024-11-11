@@ -1,27 +1,12 @@
-const { isObjectIdOrHexString } = require("mongoose");
 const Chat = require("../../models/chat.model");
 const User = require("../../models/user.model");
+const chatSocket = require("../../sockets/client/chat.socket")
 //[GET] /chat
 module.exports.index = async (req,res) => {
     const userId = res.locals.user.id;
     const fullName = res.locals.user.fullName;
     // SocketIO
-    _io.once('connection', (socket) => {
-        socket.on("CLIENT_SEND_MESSAGE", async (content) => {
-            // Lưu vào database
-            const chat = new Chat({
-                user_id: userId,
-                content: content
-            })
-            await chat.save();
-            // Trả DATA về client
-            _io.emit("SERVER_RETURN_MESSAGE", {
-                fullName: fullName,
-                userId: userId,
-                content: content
-            });
-        })
-    });
+    chatSocket(req, res);
     // End SocketIo
 
     // Lấy DATA từ DataBase
