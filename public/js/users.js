@@ -10,3 +10,29 @@ if(listBtnAddFriend.length > 0) {
     });
 }
 // Hết chức năng gửi yêu cầu
+
+// Chức năng hủy gửi yêu cầu
+const listBtnCancelFriend = document.querySelectorAll("[btn-cancel-friend]");
+if(listBtnCancelFriend.length > 0) {
+    listBtnCancelFriend.forEach(button => {
+        button.addEventListener("click", () => {
+            button.closest(".box-user").classList.remove("add");
+            const userId = button.getAttribute("btn-cancel-friend");
+            socket.emit("CLIENT_CANCEL_FRIEND", userId);
+        });
+    });
+}
+// Hết chức năng hủy gửi yêu cầu
+
+// Chức năng từ chối kết bạn
+const listBtnRefuseFriend = document.querySelectorAll("[btn-refuse-friend]");
+if(listBtnRefuseFriend.length > 0) {
+    listBtnRefuseFriend.forEach(button => {
+        button.addEventListener("click", () => {
+            button.closest(".box-user").classList.add("refuse");
+            const userId = button.getAttribute("btn-refuse-friend");
+            socket.emit("CLIENT_REFUSE_FRIEND", userId);
+        });
+    });
+}
+// Hết chức năng từ chối kết bạn
